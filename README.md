@@ -67,3 +67,7 @@ grunt watch
 
 更多配置参考官网api [grunt](http://gruntjs.cn/configuring-tasks/)
 
+
+
+本文参考了[适合简单静态页面的grunt自动化开发工具](https://github.com/foru17/StaticPage)
+
