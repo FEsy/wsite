@@ -83,9 +83,10 @@ grunt watch
 
 
 ###申明
-本文参考了
+本文参考了		
+
 [适合简单静态页面的grunt自动化开发工具](https://github.com/foru17/StaticPage)		
-	
+
 [开发seajs项目的超级利器](https://github.com/fouber/spmx)	
 
 ###版本更新说明
