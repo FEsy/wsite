@@ -60,3 +60,8 @@ grunt watch
 可以单独使用`grunt watch:base`进行普通监听`js`目录下所有文件和`css/style.css`。
 
 使用`grunt watch:sass`或者`grunt watch:css`分别监听`.scss`和`.css`文件。
+
+
+更多配置参考官网api[grunt](1)
+
+1.http://gruntjs.cn/configuring-tasks/
