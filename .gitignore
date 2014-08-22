@@ -13,6 +13,6 @@
 #忽略以下文件夹
 .sass-cache/
 node_modules/
-build/
+wwwroot/
 #忽略服务器hook
 update.php
