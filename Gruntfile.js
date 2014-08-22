@@ -106,11 +106,23 @@ module.exports=function(grunt){
                   keepSpecialComments: 0
               },
               compress:{
+                    /*   
+                    //静态文件映射
                     files:{
-                     '<%= paths.assets %>/css/min.style.css': [
+                     '<%= paths.assets %>/css/style.min.css': [
                      '<%= paths.css %>/style.css'
-                 ]
-                 }
+                    ]}
+                    */
+                    files : [
+                        {
+                            expand : true, //启动动态扩展
+                            cwd : '<%= paths.css %>',  //源文件匹配都相对于此目录
+                            src: ["*.css"], //匹配模式
+                            dest: '<%= paths.assets %>/css', //匹配路径前缀
+                            ext: '.min.css', //目标文件路径中文件的扩展名
+                            extDot: 'last' //扩展名始于文件名的第一个符号(first,last)
+                        }
+                    ]
               }
         },
 
@@ -169,7 +181,7 @@ module.exports=function(grunt){
               port: 21,
               authKey: 'key1'
             },
-            src: 'build',
+            src: 'wwwroot',
             dest: '/home/work/demo',
             exclusions: ['path/to/source/folder/**/.DS_Store', 'path/to/source/folder/**/Thumbs.db', 'path/to/dist/tmp']
           }
@@ -183,7 +195,7 @@ module.exports=function(grunt){
               authKey: 'key1'
             },
             cache: 'sftpCache.json',
-            src: 'build',
+            src: 'wwwroot',
             dest: '/home/work/demo',
           exclusions: ['path/to/source/folder/**/.DS_Store', 'path/to/source/folder/**/Thumbs.db', 'path/to/dist/tmp'],
             serverSep: '/',
@@ -218,7 +230,5 @@ module.exports=function(grunt){
     grunt.registerTask('publish', ['ftp-deploy']);
     //执行 grunt ssh 可以利用 ssh 上传到服务器
     grunt.registerTask('ssh', ['sftp-deploy']);
-    //执行 grunt gcc 可进行谷歌压缩
-     grunt.registerTask('gcc', ['closure-compiler']);
 
 };
