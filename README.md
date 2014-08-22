@@ -1,11 +1,13 @@
 基于grunt自动化开发工具的微信off site解决方案 
 
+开发开发人员根据项目的实际情况进行扩展；	
+
 
 ####克隆笨仓库
 在开发目录下执行：
 
 ````
-git clone https://github.com/foru17/StaticPage.git
+git clone https://github.com/FEsy/wsite.git
 ````
 ####安装Npm依赖包
 
@@ -21,6 +23,7 @@ npm install
 
 ````
 ````
+
 
 ####初始化
 
