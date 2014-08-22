@@ -16,7 +16,7 @@ module.exports=function(grunt){
 
         //清理掉开发时才需要的文件
         clean: {
-            pre: ['dist/', 'build/'],//删除掉先前的开发文件
+            pre: ['dist/', 'wwwroot/'],//删除掉先前的开发文件
             post: ['<%= archive_name %>*.zip'] //先删除先前生成的压缩包
         },
 
@@ -25,36 +25,31 @@ module.exports=function(grunt){
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n' //js文件打上时间戳
             },
             dist: {
+                 /*
                  files: {
                      '<%= paths.assets %>/js/min.v.js': '<%= paths.js %>/base.js'
                  }
+                 */
+                 files : [
+                    {
+                        expand : true, //启动动态扩展
+                        cwd : '<%= paths.js %>',  //源文件匹配都相对于此目录
+                        src: ["*.js"], //匹配模式
+                        dest: '<%= paths.assets %>/js', //匹配路径前缀
+                        ext: '.min.js', //目标文件路径中文件的扩展名
+                        extDot: 'last' //扩展名始于文件名的第一个符号(first,last)
+                    }
+                 ]
             }
         },
-        //调用谷歌高级压缩
-        'closure-compiler':{
-            base:{
-              closurePath:'/usr/local/Cellar/closure-compiler/20140407/libexec', //在这里指定谷歌高级压缩路径
-              js:[
-                '<%= paths.assets %>/js/v.js',
-              ],
-              jsOutputFile:'<%= paths.assets %>/js/min.main.js',//输出的js为min.main.js
-              noreport:true,
-              maxBuffer: 500,
-              options:{
-                compilation_level: 'ADVANCED_OPTIMIZATIONS',
-                warning_level:"DEFAULT"
-                // language_in: 'ECMASCRIPT5_STRICT'
-              }
-            }
-        },
-        //压缩最终Build文件夹
+        //压缩最终wwwroot文件夹
         compress:{
             main:{
                 options:{
                     archive:'<%= archive_name %>-<%= grunt.template.today("yyyy") %>年<%= grunt.template.today("mm") %>月<%= grunt.template.today("dd") %>日<%= grunt.template.today("h") %>时<%= grunt.template.today("TT") %>.zip'
                 },
                 expand:true,
-                cwd:'build/',
+                cwd:'wwwroot/',
                 src:['**/*'],
                 dest:''
             }
@@ -63,10 +58,15 @@ module.exports=function(grunt){
         copy:{
             main:{
                 files:[
-                    {expand: true, src: ['assets/css/**'], dest: 'build/'},
-                    {expand: true, src: ['assets/images/**'], dest: 'build/'},
-                    {expand: true, src: ['assets/js/**'], dest: 'build/'},
-                    {expand: true, src: ['*', '!.gitignore', '!.DS_Store','!Gruntfile.js','!package.json','!node_modules/**','!img/**','!js/**','!css/**','!go.sh','!.ftppass','!<%= archive_name %>*.zip'], dest: 'build/'},
+                    {expand: true,  src: ['assets/css/**'],      dest: 'wwwroot/'},
+                    {expand: true,  src: ['assets/images/**'],   dest: 'wwwroot/'},
+                    {expand: true,  src: ['assets/js/**'],       dest: 'wwwroot/'},
+                    {expand: true,  src: ['components/**'],       dest: 'wwwroot/'},
+                    {expand: true,  src: ['plugins/**'],       dest: 'wwwroot/'},
+                    {expand: true,  src: ['*', '!module','!.gitignore', '!.DS_Store','!Gruntfile.js','!package.json','!node_modules/**','!img/**','!js/**',
+                            '!css/**','!go.sh','!.ftppass', '!README.md', '!hello.md','!sftpCache.json',
+                            '!<%= archive_name %>*.zip'], dest: 'wwwroot/',
+                        },
                 ]
             },
 
@@ -209,7 +209,6 @@ module.exports=function(grunt){
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-ftp-deploy');
     grunt.loadNpmTasks('grunt-sftp-deploy');
-    grunt.loadNpmTasks('grunt-closure-compiler');//增加谷歌高级压缩
     /*下方为配置的常用 grunt 命令*/
     grunt.registerTask('default', ['cssmin','uglify','htmlmin','copy:images']);
     grunt.registerTask('sass', ['sass:admin','cssmin']);
